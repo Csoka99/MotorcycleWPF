@@ -1,0 +1,63 @@
+﻿<Window x:Class="MotorcycleGameWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MotorcycleGameWpf"
+        mc:Ignorable="d"
+        Title="Motorcycle game" Height="540" Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
+    
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding MoveMotorCommand}"
+                    CommandParameter="Left" Key="Left"/>
+        <KeyBinding Command="{Binding MoveMotorCommand}"
+                    CommandParameter="Right" Key="Right"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="New Game" Command="{Binding NewGameCommand}"/>
+            <MenuItem Header="Start" Command="{Binding StartCommand}" IsEnabled="{Binding Start,UpdateSourceTrigger=PropertyChanged}"/>
+            <MenuItem Header="Pause" Command="{Binding PauseCommand}" IsEnabled="{Binding Pause,UpdateSourceTrigger=PropertyChanged}"/>
+            <MenuItem Header="Save" Command="{Binding SaveCommand}" IsEnabled="{Binding Start,UpdateSourceTrigger=PropertyChanged}"/>
+            <MenuItem Header="Load" Command="{Binding LoadCommand}" IsEnabled="{Binding Start,UpdateSourceTrigger=PropertyChanged}"/>
+        </Menu>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="{Binding Size, UpdateSourceTrigger=PropertyChanged}"
+                                     Columns="{Binding Size, UpdateSourceTrigger=PropertyChanged}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Rectangle Fill="{Binding Color, UpdateSourceTrigger=PropertyChanged}" Stroke="Black"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock Text="Üzemanyag mennyiség: " />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding FuelTank, UpdateSourceTrigger=PropertyChanged}" />
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem>
+                <TextBlock Text="Eltelt idő: " />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding Time, UpdateSourceTrigger=PropertyChanged}" />
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem />
+        </StatusBar>
+    </Grid>
+</Window>
